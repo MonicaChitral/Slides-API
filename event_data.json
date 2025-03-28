@@ -1,0 +1,136 @@
+{
+    "data": [
+        {
+            "event_title": "sample",
+            "repeat_type": "Oneoff",
+            "trigger_interval": 5,
+            "repeat_every": 1,
+            "event_interval": "None",
+            "start_time": "19:07:00",
+            "timezone": "UTC",
+            "start_date": "2025-03-27",
+            "end_date": "2025-03-27",
+            "event_days": "Thu",
+            "inference_type": [
+                "crowd_counting"
+            ],
+            "duration": 0.25,
+            "created_at": "2025-03-28T19:07:44",
+            "updated_at": "2025-03-28T19:07:44",
+            "id": 19,
+            "archive": false,
+            "cron_expression": null,
+            "event_uuid": "evn-2dac6363",
+            "devices": [
+                {
+                    "device_name": "test1",
+                    "device_model": "aaa",
+                    "placement": null,
+                    "section_name": null,
+                    "section_capacity": null,
+                    "uid": "dev-4c3e545e-921c",
+                    "device_type": "iot",
+                    "created_at": "2025-03-10T22:27:12",
+                    "updated_at": "2025-03-10T22:27:12",
+                    "id": 2,
+                    "status": "offline",
+                    "disabled": false,
+                    "latest_image_url_id": null,
+                    "rois": null,
+                    "lat": null,
+                    "lon": null
+                },
+                {
+                    "device_name": "test4",
+                    "device_model": "eeea",
+                    "placement": null,
+                    "section_name": null,
+                    "section_capacity": null,
+                    "uid": "dev-e0944b17-12f1",
+                    "device_type": "iot",
+                    "created_at": "2025-03-10T22:29:51",
+                    "updated_at": "2025-03-10T22:29:51",
+                    "id": 4,
+                    "status": "offline",
+                    "disabled": false,
+                    "latest_image_url_id": null,
+                    "rois": null,
+                    "lat": null,
+                    "lon": null
+                }
+            ],
+            "end_time": "19:22:00",
+            "analytics_summary": {
+                "average_count": 0,
+                "max_count": 0
+            },
+            "latest_image_url_id": null
+        },
+        {
+            "event_title": "testingaaa",
+            "repeat_type": "Recurring",
+            "trigger_interval": 5,
+            "repeat_every": 1,
+            "event_interval": "Annually",
+            "start_time": "01:08:00",
+            "timezone": "UTC",
+            "start_date": "2025-03-28",
+            "end_date": "2025-03-28",
+            "event_days": "wed",
+            "inference_type": [
+                "pose_detection"
+            ],
+            "duration": 2.0,
+            "created_at": "2025-03-25T01:09:09",
+            "updated_at": "2025-03-25T01:09:09",
+            "id": 16,
+            "archive": false,
+            "cron_expression": "08 01 25 3/1 *",
+            "event_uuid": "evn-bbd437d5",
+            "devices": [
+                {
+                    "device_name": "Demo Device",
+                    "device_model": "1",
+                    "placement": "indoor",
+                    "section_name": null,
+                    "section_capacity": null,
+                    "uid": "dev-Demo Device-indoor-1",
+                    "device_type": "iot",
+                    "created_at": "2025-03-10T14:27:06",
+                    "updated_at": "2025-03-10T14:27:06",
+                    "id": 1,
+                    "status": "offline",
+                    "disabled": false,
+                    "latest_image_url_id": null,
+                    "rois": null,
+                    "lat": null,
+                    "lon": null
+                }
+            ],
+            "end_time": "03:08:00",
+            "analytics": [
+                {
+                "id": 101,
+                "device_id": 1,
+                "event_id": 1,
+                "datetime": "2025-03-20T12:00:00",
+                "headcount": 120,
+                "artifact_type": "image",
+                "inference_type": "crowd_counting",
+                "image_url_id": "img_101"
+                },
+                {
+                "id": 102,
+                "device_id": 2,
+                "event_id": 1,
+                "datetime": "2025-03-20T12:10:00",
+                "headcount": 180,
+                "artifact_type": "image",
+                "inference_type": "crowd_counting",
+                "image_url_id": "img_102"
+                }
+            
+            ]
+        }
+    ]
+}
