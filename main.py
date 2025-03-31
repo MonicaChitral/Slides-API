@@ -47,25 +47,27 @@ Thank you for being part of this event!
 
 def create_presentation(slides_service, drive_service, content, title, sheet_id, chart_id):
     copied = drive_service.files().copy(
-        fileId='1r5MIK3QZzhGK1g7USCJQ4bgb9ycX02eyKw22aBHshp8',
+        fileId='1BgMBoNIGRXCMzBJ26TLb8HUDbqcwGTHFfr5Bu1RyKeY',
         body={'name': f'HawkEye Report - {title}'}
     ).execute()
 
     presentation_id = copied['id']
     print(f"✅ Created: https://docs.google.com/presentation/d/{presentation_id}/edit")
 
-    slide_id = f"slide_{title[:10].replace(' ', '_')}"
+    slide1_id = f"slide1_{title[:10].replace(' ', '_')}"
+    slide2_id = f"slide2_{title[:10].replace(' ', '_')}"
     title_id = f"title_{title[:10].replace(' ', '_')}"
     body_id = f"body_{title[:10].replace(' ', '_')}"
-    chart_id_obj = f"chart_{title[:10].replace(' ', '_')}"
+    chart_obj_id = f"chart_{title[:10].replace(' ', '_')}"
 
     requests = [
-        {"createSlide": {"objectId": slide_id, "insertionIndex": 0}},
+        # Slide 1 - Info
+        {"createSlide": {"objectId": slide1_id, "insertionIndex": 0}},
         {"createShape": {
             "objectId": title_id,
             "shapeType": "TEXT_BOX",
             "elementProperties": {
-                "pageObjectId": slide_id,
+                "pageObjectId": slide1_id,
                 "transform": {"scaleX": 1, "scaleY": 1, "translateX": 50, "translateY": 20, "unit": "PT"},
                 "size": {"height": {"magnitude": 50, "unit": "PT"}, "width": {"magnitude": 400, "unit": "PT"}}
             }
@@ -80,7 +82,7 @@ def create_presentation(slides_service, drive_service, content, title, sheet_id,
             "objectId": body_id,
             "shapeType": "TEXT_BOX",
             "elementProperties": {
-                "pageObjectId": slide_id,
+                "pageObjectId": slide1_id,
                 "transform": {"scaleX": 1, "scaleY": 1, "translateX": 50, "translateY": 90, "unit": "PT"},
                 "size": {"height": {"magnitude": 300, "unit": "PT"}, "width": {"magnitude": 500, "unit": "PT"}}
             }
@@ -91,17 +93,19 @@ def create_presentation(slides_service, drive_service, content, title, sheet_id,
             "style": {"fontSize": {"magnitude": 14, "unit": "PT"}},
             "fields": "fontSize"
         }},
+        # Slide 2 - Chart
+        {"createSlide": {"objectId": slide2_id, "insertionIndex": 1}},
         {
             "createSheetsChart": {
-                "objectId": chart_id_obj,
+                "objectId": chart_obj_id,
                 "spreadsheetId": sheet_id,
                 "chartId": chart_id,
                 "linkingMode": "LINKED",
                 "elementProperties": {
-                    "pageObjectId": slide_id,
+                    "pageObjectId": slide2_id,
                     "transform": {
                         "scaleX": 1, "scaleY": 1,
-                        "translateX": 50, "translateY": 400,
+                        "translateX": 100, "translateY": 65,
                         "unit": "PT"
                     },
                     "size": {
