@@ -33,8 +33,11 @@ def load_event_data():
         return json.load(f)['data']
 
 def create_presentation(slides_service, drive_service, event, sheet_id, chart_ids):
+    # Initialize IDs and variables
     title = event.get("event_title", "Untitled")
-    logo_url = event.get("latest_image_url_id")  # Get the logo URL from event data
+    logo_url = event.get("latest_image_url_id")
+    
+    # Create presentation by copying template
     copied = drive_service.files().copy(
         fileId='1BgMBoNIGRXCMzBJ26TLb8HUDbqcwGTHFfr5Bu1RyKeY',
         body={'name': f'HawkEye Report - {title}'}
@@ -62,70 +65,7 @@ def create_presentation(slides_service, drive_service, event, sheet_id, chart_id
         ["Total Attendance", "5,000"]
     ]
 
-    # Style table header
-    {"updateTableCellProperties": {
-        "objectId": table_id,
-        "tableRange": {
-            "location": {"rowIndex": 0, "columnIndex": 0},
-            "rowSpan": 1,
-            "columnSpan": 2
-        },
-        "tableCellProperties": {
-            "tableCellBackgroundFill": {
-                "solidFill": {
-                    "color": {"rgbColor": {"red": 0.23, "green": 0.51, "blue": 0.79}}
-                }
-            }
-        },
-        "fields": "tableCellBackgroundFill"
-    }},
-    # Style header text
-    {"updateTextStyle": {
-        "objectId": table_id,
-        "cellLocation": {"rowIndex": 0},
-        "rowSpan": 1,
-        "columnSpan": 2,
-        "style": {
-            "foregroundColor": {"opaqueColor": {"rgbColor": {"red": 1, "green": 1, "blue": 1}}},
-            "bold": True
-        },
-        "fields": "foregroundColor,bold"
-    }},
-    # Style table content text
-    {"updateTextStyle": {
-        "objectId": table_id,
-        "style": {
-            "foregroundColor": {"opaqueColor": {"rgbColor": {"red": 1, "green": 1, "blue": 1}}}
-        },
-        "fields": "foregroundColor"
-    }}
-
-    # Define KPI cards with simpler styling
-    kpi_cards = [
-        {
-            "id": kpi1_id,
-            "title": "Total Count",
-            "value": "30",  # Hardcoded for now, replace with actual data
-            "change": "+30% vs last period",
-            "x": 40,
-            "y": 300,  # Adjusted position
-            "width": 200,
-            "height": 80,
-            "background": {"red": 1, "green": 1, "blue": 1}  # White background
-        },
-        {
-            "id": kpi2_id,
-            "title": "Aggregated Count",
-            "value": "40",  # Hardcoded for now, replace with actual data
-            "change": "+40% vs last period",
-            "x": 280,
-            "y": 300,  # Adjusted position
-            "width": 200,
-            "height": 80,
-            "background": {"red": 1, "green": 1, "blue": 1}  # White background
-        }
-    ]
-
+    # Style table header and content
     requests = [
         # Create slide
         {"createSlide": {"objectId": slide_id, "insertionIndex": 0}},
@@ -187,6 +127,26 @@ def create_presentation(slides_service, drive_service, event, sheet_id, chart_id
                 }
             })
 
+    # Style table header and content
+    requests.extend([
+        {"updateTableCellProperties": {
+            "objectId": table_id,
+            "tableRange": {
+                "location": {"rowIndex": 0, "columnIndex": 0},
+                "rowSpan": 1,
+                "columnSpan": 2
+            },
+            "tableCellProperties": {
+                "tableCellBackgroundFill": {
+                    "solidFill": {
+                        "color": {"rgbColor": {"red": 0.23, "green": 0.51, "blue": 0.79}}
+                    }
+                }
+            },
+            "fields": "tableCellBackgroundFill"
+        }}
+    ])
+
     # Style table header
     requests.extend([
         {"updateTableCellProperties": {
@@ -205,6 +165,7 @@ def create_presentation(slides_service, drive_service, event, sheet_id, chart_id
             },
             "fields": "tableCellBackgroundFill"
         }},
+        # Style "Information" text
         {"updateTextStyle": {
             "objectId": table_id,
             "cellLocation": {"rowIndex": 0, "columnIndex": 0},
@@ -213,8 +174,44 @@ def create_presentation(slides_service, drive_service, event, sheet_id, chart_id
                 "bold": True
             },
             "fields": "foregroundColor,bold"
+        }},
+        # Style "Details" text
+        {"updateTextStyle": {
+            "objectId": table_id,
+            "cellLocation": {"rowIndex": 0, "columnIndex": 1},
+            "style": {
+                "foregroundColor": {"opaqueColor": {"rgbColor": {"red": 1, "green": 1, "blue": 1}}},
+                "bold": True
+            },
+            "fields": "foregroundColor,bold"
         }}
     ])
+
+    # Define KPI cards with simpler styling
+    kpi_cards = [
+        {
+            "id": kpi1_id,
+            "title": "Total Count",
+            "value": str(max_count),
+            "change": "4.1% vs last month",
+            "x": 40,
+            "y": 200,
+            "width": 200,
+            "height": 80,
+            "background": {"red": 0.4, "green": 0.8, "blue": 0.4}  # Light green
+        },
+        {
+            "id": kpi2_id,
+            "title": "Aggregated Count",
+            "value": "40",  # Hardcoded for now, replace with actual data
+            "change": "+40% vs last period",
+            "x": 280,
+            "y": 300,  # Adjusted position
+            "width": 200,
+            "height": 80,
+            "background": {"red": 1, "green": 1, "blue": 1}  # White background
+        }
+    ]
 
     # Add KPI cards
     for kpi in kpi_cards:
@@ -325,7 +322,7 @@ def create_presentation(slides_service, drive_service, event, sheet_id, chart_id
             "value": str(max_count),
             "change": "4.1% vs last month",
             "x": 40,
-            "y": 200,  # Adjusted position
+            "y": 200,
             "width": 200,
             "height": 80,
             "background": {"red": 0.4, "green": 0.8, "blue": 0.4}  # Light green
@@ -345,8 +342,8 @@ def create_presentation(slides_service, drive_service, event, sheet_id, chart_id
 
     # Add charts with adjusted positions
     chart_placement = [
-        {"objectId": "chart1", "chartId": chart_ids[0], "translateY": 450},  # Adjusted position
-        {"objectId": "chart2", "chartId": chart_ids[1], "translateY": 650}   # Adjusted position
+        {"objectId": "chart1", "chartId": chart_ids[0], "translateY": 450},
+        {"objectId": "chart2", "chartId": chart_ids[1], "translateY": 650}
     ]
 
     for chart in chart_placement:
